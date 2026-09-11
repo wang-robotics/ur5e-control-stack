@@ -1,7 +1,12 @@
 # ============================================================
 # UR5e 控制栈 —— 公开仓库排除清单
-# 原则: 代码全进; 数据/权重/视频走 Release 或脚本复现; 内部材料不入
+# 原则: 代码全进; 数据/权重/视频走 Release 或脚本复现; 私人材料整目录不入
 # ============================================================
+
+# ---- 私人材料 (整目录排除, 2026-09-11 重组后) ----
+申请/
+面试/
+英语/
 
 # ---- 数据 (1.09 GB, 不进仓库; 用 scripts/teleop_collect.py 复现) ----
 datasets/
@@ -12,11 +17,12 @@ outputs/*
 !outputs/eval_*.txt
 !outputs/*.md
 
-# ---- 内部材料 (纠错记录 / 申请材料 / 工作备份) ----
+# ---- 内部材料 (纠错记录 / 工作备份) ----
 复盘/
 上传的文件/
 dsh-profile-web-backup/
 新对话交接*.md
+目录说明.md
 *.cmd
 
 # ---- 与本项目无关的杂项 (同目录其他实验产物) ----
@@ -24,46 +30,20 @@ food-wheel.html
 _combined.js
 test-wheel.mjs
 
-# ---- 申请与面试准备材料 (内部使用, 不公开) ----
-docs/面试题库.md
-docs/错题本.md
-docs/模拟面试*.md
-docs/Q*_练习记录.md
-docs/Q1_自我介绍_语音稿.md
-docs/Q6_雅可比链_重建讲义.md
-docs/Q6_自测8题_答案卡.md
-docs/Q10_Q11_闭卷重答_题纲.md
-docs/卡点45_sim2real_重答.md
-docs/王牌区_Q13-17_演练材料.md
-docs/独立贡献边界说明_骨架.md
-docs/独立贡献边界说明.md
-docs/导师初筛_候选清单.md
-docs/套磁信_模板.md
-docs/语言成绩与推荐信_启动计划.md
-docs/材料包清单_收尾.md
-docs/申请路径总表.md
-docs/PS_*
-docs/申请checklist.md
-scripts/make_ps_docx.py
-docs/推荐信素材包.md
+# ---- docs 里的工作稿 (不进公开仓库) ----
 docs/演示视频脚本.md
-docs/英文费曼_每日15分钟.md
-docs/数字锚一页纸.md
-docs/学习路线_香港申请.md
-docs/新对话交接_英语学习.md
 docs/文件一句话总结.md
 docs/成果清单.md
-docs/CV_*
-scripts/make_cv_docx.py
-
-# ---- 草稿与临时脚本 (甄别后不公开) ----
-# 已被 README_EN.md 取代的骨架, 与面向英语学习的讲解稿
 docs/README_英文骨架.md
 docs/README_EN_翻译与讲解.md
-# 与机器人项目无关的 docx 工具 / Python 入门笔记
+
+# ---- 申请工具脚本 ----
+scripts/make_cv_docx.py
+scripts/make_ps_docx.py
+
+# ---- 草稿与临时脚本 (甄别后不公开) ----
 scripts/extract_docx.py
 scripts/lesson_python_basics.py
-# _debug 里的纯草稿 (调试图、找相机、临时探针)
 scripts/_debug/debug_*.py
 scripts/_debug/show_tail.py
 scripts/_debug/inspect_repos.py
