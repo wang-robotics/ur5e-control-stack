@@ -1,0 +1,111 @@
+1
+00:00:00,000 --> 00:00:06,000
+UR5e six-axis robot arm — a complete control stack in MuJoCo simulation
+
+2
+00:00:06,000 --> 00:00:13,000
+Six layers: kinematics, trajectory planning, control, abstraction, reinforcement learning environment, simulation
+
+3
+00:00:13,000 --> 00:00:20,000
+Built from scratch, and verified by 20 unit tests
+
+4
+00:00:20,000 --> 00:00:28,000
+Two learning approaches compared on the same reaching task: reinforcement learning, and vision-based behavior cloning
+
+5
+00:00:28,000 --> 00:00:36,000
+Every number shown here is reproducible from the committed code and evaluation logs
+
+6
+00:00:40,000 --> 00:00:52,000
+Layer 1 — Kinematics: forward and inverse kinematics with damped least squares, plus a numerical Jacobian
+
+7
+00:00:52,000 --> 00:01:02,000
+Layer 2 — Trajectory: point-to-point and Cartesian straight lines, with quintic profiles and SLERP orientation
+
+8
+00:01:02,000 --> 00:01:12,000
+Layer 3 — Control: position servo, torque PD with gravity compensation, and operational space control
+
+9
+00:01:12,000 --> 00:01:22,000
+Layer 4 — Abstraction: an eleven-method interface contract; moving to real hardware needs one new class only
+
+10
+00:01:22,000 --> 00:01:30,000
+Layers 5 and 6 — a Gymnasium RL environment on the official Menagerie UR5e model
+
+11
+00:01:30,000 --> 00:01:40,000
+Experiment 1 — PPO reinforcement learning: one million steps, three random seeds
+
+12
+00:01:40,000 --> 00:01:52,000
+Under a 2-centimetre threshold: 150 of 150 episodes succeeded, with 1.86 centimetres landing accuracy
+
+13
+00:01:52,000 --> 00:02:05,000
+The reward is distance-based: every step that closes the gap is rewarded, and an exponential term sharpens the gradient near the target
+
+14
+00:02:05,000 --> 00:02:18,000
+One early fix mattered: sampling goals around the initial end-effector pose keeps them inside the two-second travel budget
+
+15
+00:02:18,000 --> 00:02:30,000
+Before that fix, early training reached only 2 out of 10
+
+16
+00:02:30,000 --> 00:02:40,000
+Experiment 2 — vision-based behavior cloning: 24 keyboard teleoperation demonstrations, 4,703 frames
+
+17
+00:02:40,000 --> 00:02:52,000
+The policy takes a camera image plus a target coordinate, and outputs end-effector velocity; the target comes from an RGB-D detector
+
+18
+00:02:52,000 --> 00:03:05,000
+That detector was rebuilt after a controlled comparison: the truth-goal and detected-goal systems gave identical results in 43 of 50 episodes
+
+19
+00:03:05,000 --> 00:03:18,000
+The original minimum-depth heuristic was hijacked by inconsistent edge pixels — 20.5 centimetres of error; centroid plus median depth brought it to about 5
+
+20
+00:03:18,000 --> 00:03:30,000
+At the 9-centimetre threshold, the cloned policy succeeds in 50 of 50 evaluations
+
+21
+00:03:30,000 --> 00:03:40,000
+At the 2-centimetre standard, it reaches only 0 to 10 percent across three training runs
+
+22
+00:03:40,000 --> 00:03:52,000
+That is not a tuning problem: my own demonstrations stop at 4.6 centimetres on average, and only about 10 percent finish inside 2
+
+23
+00:03:52,000 --> 00:04:05,000
+The policy reproduces its teacher's distribution — which is exactly what behavior cloning should do
+
+24
+00:04:05,000 --> 00:04:15,000
+I confirmed this by replaying my demonstrations through the physics engine, and by ablations on goal source and training data
+
+25
+00:04:15,000 --> 00:04:30,000
+A controlled experiment also refuted my own hypothesis: removing ten imperfect demonstrations made results worse — 0 out of 50, versus 5
+
+26
+00:04:30,000 --> 00:04:42,000
+So reinforcement learning beats the teacher, because it knows the dynamics and the reward presses directly on the threshold
+
+27
+00:04:42,000 --> 00:04:52,000
+Imitation, by contrast, is bounded by the demonstrator — that is the finding, reported under both thresholds
+
+28
+00:04:52,000 --> 00:05:00,000
+Code, evaluation logs and the full report: github.com/wang-robotics/ur5e-control-stack
