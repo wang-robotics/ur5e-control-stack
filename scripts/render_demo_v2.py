@@ -36,14 +36,33 @@ from train_vla import IMAGENET_MEAN, IMAGENET_STD, SmallVLA  # noqa: E402
 
 SCENE = ROOT / "models" / "ur5e" / "universal_robots_ur5e" / "teleop_scene.xml"
 OUTDIR = ROOT / "outputs" / "videos2"
-CAMERA = "teleop"          # 场景自带的固定机位
+CAMERA = "teleop"          # (仅作物位参考: 实测该机位看不到工作区, 已改用下面的自由相机)
+CAM_DISTANCE = 1.35        # 自由相机: 距工作区中点
+CAM_AZIMUTH = 210.0        # 水平角 (实测 210° 构图最好: 机械臂完整 + 红球清晰)
+CAM_ELEVATION = -20.0      # 俯角
 GAIN = 1.5                 # 与 eval_vla_detect.py 默认一致
 CTRL_HZ = 50               # 控制频率
 HOLD_FRAMES = 12           # 成功后静止收尾的帧数
 
 
-def _render(renderer: mujoco.Renderer, data: mujoco.MjData) -> np.ndarray:
-    renderer.update_scene(data, camera=CAMERA)
+def _make_camera(lookat) -> mujoco.MjvCamera:
+    """按工作区中点生成自由相机 (每局对准 起点与目标的中间)。"""
+    cam = mujoco.MjvCamera()
+    cam.type = mujoco.mjtCamera.mjCAMERA_FREE
+    cam.lookat[:] = lookat
+    cam.distance = CAM_DISTANCE
+    cam.azimuth = CAM_AZIMUTH
+    cam.elevation = CAM_ELEVATION
+    return cam
+
+
+def _render(renderer: mujoco.Renderer, data: mujoco.MjData, camera=None) -> np.ndarray:
+    """camera=None 用模型默认相机 (**必须**用于喂策略: 训练/评估都是默认相机);
+    传 MjvCamera 只用于出片视角。"""
+    if camera is None:
+        renderer.update_scene(data)
+    else:
+        renderer.update_scene(data, camera=camera)
     return renderer.render()
 
 
@@ -72,7 +91,7 @@ def render_vla(episodes: int, fps: int, success: float, keep_failures: bool) -> 
     mean = IMAGENET_MEAN.reshape(1, 1, 3)
     std = IMAGENET_STD.reshape(1, 1, 3)
     step_every = max(1, CTRL_HZ // fps)
-    rng = np.random.default_rng(11)
+    rng = np.random.default_rng(42)          # 与 eval_vla_detect.py 相同的种子
     max_steps = 500           # 10 s 上限 (与评估一致)
     success_ticks = CTRL_HZ   # 1 秒
 
@@ -82,18 +101,17 @@ def render_vla(episodes: int, fps: int, success: float, keep_failures: bool) -> 
         ep += 1
         iface.reset()
         tcp0, _ = iface.get_tcp_pose()
-        # 目标采样: 与 v1 同分布但在桌面之上, 保证可见可达
-        for _ in range(100):
-            goal = tcp0 + np.array([
-                rng.uniform(-0.06, 0.06),
-                rng.uniform(-0.24, -0.10),
-                rng.uniform(-0.08, 0.02),
-            ])
-            if goal[2] >= config.REACH_GOAL_Z_MIN:
-                break
+        # 目标采样: **与 eval_vla_detect.py L120-124 完全一致** (口径对齐)
+        goal = tcp0 + np.array([
+            rng.uniform(-0.05, 0.05),
+            rng.uniform(-0.22, -0.12),
+            rng.uniform(-0.06, 0.06),
+        ])
+        goal[2] = max(goal[2], 0.15)
         robot.model.body("target_ball").pos = goal
         mujoco.mj_forward(robot.model, robot.data)
 
+        cam = _make_camera((tcp0 + goal) / 2)      # 每局对准 起点↔目标 中点
         outdir = OUTDIR / f"vla_v2_ep{kept}"
         outdir.mkdir(parents=True, exist_ok=True)
         for f in outdir.glob("*.png"):
@@ -117,13 +135,13 @@ def render_vla(episodes: int, fps: int, success: float, keep_failures: bool) -> 
             in_success = in_success + 1 if final < success else 0
 
             if step % step_every == 0:
-                _save(_render(frame_renderer, robot.data), outdir, frame)
+                _save(_render(frame_renderer, robot.data, cam), outdir, frame)
                 frame += 1
             if in_success >= success_ticks:                  # 达标满 1 秒 → 收尾
                 break
 
         for _ in range(HOLD_FRAMES):                         # 静止收尾
-            _save(_render(frame_renderer, robot.data), outdir, frame)
+            _save(_render(frame_renderer, robot.data, cam), outdir, frame)
             frame += 1
 
         ok = final < success
@@ -165,6 +183,7 @@ def render_ppo(episodes: int, fps: int, success: float, keep_failures: bool) -> 
         robot.model.body("target_ball").pos = goal
         mujoco.mj_forward(robot.model, robot.data)
 
+        cam = _make_camera((tcp0 + goal) / 2)      # 每局对准 起点↔目标 中点
         outdir = OUTDIR / f"ppo_v2_ep{kept}"
         outdir.mkdir(parents=True, exist_ok=True)
         for f in outdir.glob("*.png"):
@@ -185,13 +204,13 @@ def render_ppo(episodes: int, fps: int, success: float, keep_failures: bool) -> 
             final = float(np.linalg.norm(goal - tcp))
             in_success = in_success + 1 if final < success else 0
             if step % step_every == 0:
-                _save(_render(frame_renderer, robot.data), outdir, frame)
+                _save(_render(frame_renderer, robot.data, cam), outdir, frame)
                 frame += 1
             if in_success >= success_ticks:
                 break
 
         for _ in range(HOLD_FRAMES):
-            _save(_render(frame_renderer, robot.data), outdir, frame)
+            _save(_render(frame_renderer, robot.data, cam), outdir, frame)
             frame += 1
 
         ok = final < success
