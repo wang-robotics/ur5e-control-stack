@@ -3,6 +3,8 @@
 > **Author**: Zhiwei Wang (王智伟) · Guangdong University of Technology,
 > Mechanical Design, Manufacturing and Automation (Class of 2022) ·
 > lixinnian95@gmail.com
+>
+> **Repository**: https://github.com/wang-robotics/ur5e-control-stack
 
 A complete six-axis robot arm control stack built on **MuJoCo**, extended with two
 learning-based controllers: **reinforcement learning (PPO)** and **vision-based

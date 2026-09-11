@@ -3,6 +3,8 @@
 > **作者**: 王智伟 (Wang Zhiwei) · 广东工业大学 机械设计制造及其自动化 (2022 级) ·
 > lixinnian95@gmail.com
 >
+> **项目主页**: https://github.com/wang-robotics/ur5e-control-stack
+>
 > 实验结果与英文版说明见 [`README_EN.md`](README_EN.md); 完整实验报告见
 > [`docs/实验报告.md`](docs/实验报告.md)。
 
