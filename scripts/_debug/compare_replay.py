@@ -1,4 +1,4 @@
-"""对比 ep20 的两种重建: (a) 运动学积分 (WorkBuddy 方法) vs (b) 物理回放 (DSH 方法)。"""
+"""对比 ep20 的两种重建: (a) 运动学积分 vs (b) 物理回放。"""
 import sys
 from pathlib import Path
 

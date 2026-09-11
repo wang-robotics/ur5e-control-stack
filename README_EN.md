@@ -42,7 +42,14 @@ Trained policies and demo renderings are attached to
 |---|---|
 | PPO policies (original + 3 seeds) | `ur5e_reach_ppo*.zip` |
 | Behavior-cloning policies (main / v3 / same-recipe retrain / cleaned-data control) | `vla_bc*.pt` |
-| Demo clips (8 × 480p) | `ppo_ep*.mp4`, `vla_ep*.mp4` |
+| Demo clips (6 × 480p, 25 fps) | `ppo_v2_ep0-2.mp4`, `vla_v2_ep0-2.mp4` |
+
+> The clips are rendered under **the same evaluation protocol** as the numbers above
+> (same seed, no action smoothing, recording stops once the success criterion is met),
+> so the final gap in each clip is the final distance recorded in the evaluation logs.
+> The **VLA clips therefore still show a few centimetres of gap** — they stop at the
+> **9 cm success criterion** (the threshold used for behavior cloning in the report).
+> That matches the reported numbers; it is not a rendering artifact.
 
 > Datasets (~1 GB) are not committed; reproduce them with
 > `scripts/teleop_collect.py` and `scripts/preprocess_vla.py` (see `data/README.md`).

@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parent.parent / "models" / "ur5e"
 
 
 def fetch_json(url: str) -> list:
-    req = urllib.request.Request(url, headers={"User-Agent": "dsh"})
+    req = urllib.request.Request(url, headers={"User-Agent": "ur5e-control-stack/1.0"})
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.load(r)
 
@@ -24,7 +24,7 @@ def download(rel_path: str) -> None:
         print(f"skip {rel_path}")
         return
     url = f"{RAW}/{rel_path}"
-    req = urllib.request.Request(url, headers={"User-Agent": "dsh"})
+    req = urllib.request.Request(url, headers={"User-Agent": "ur5e-control-stack/1.0"})
     with urllib.request.urlopen(req, timeout=60) as r, open(dest, "wb") as f:
         f.write(r.read())
     print(f"downloaded {rel_path} ({dest.stat().st_size} bytes)")
