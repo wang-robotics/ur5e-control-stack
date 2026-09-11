@@ -77,3 +77,8 @@ Thumbs.db
 *.pt
 *.mp4
 *.avi
+
+# ---- Release 附件暂存 (大文件走 GitHub Release, 不进 Git) ----
+release/
+docs/Release_v1.0_说明.md
+
