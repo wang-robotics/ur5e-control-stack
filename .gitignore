@@ -47,6 +47,8 @@ docs/学习路线_香港申请.md
 docs/新对话交接_英语学习.md
 docs/文件一句话总结.md
 docs/成果清单.md
+docs/CV_*
+scripts/make_cv_docx.py
 
 # ---- 草稿与临时脚本 (甄别后不公开) ----
 # 已被 README_EN.md 取代的骨架, 与面向英语学习的讲解稿

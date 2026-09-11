@@ -2,7 +2,7 @@
 
 > **Author**: Zhiwei Wang (王智伟) · Guangdong University of Technology,
 > Mechanical Design, Manufacturing and Automation (Class of 2022) ·
-> lixinnian95@gmail.com
+> 2791842174@qq.com
 >
 > **Repository**: https://github.com/wang-robotics/ur5e-control-stack
 

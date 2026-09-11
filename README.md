@@ -1,7 +1,7 @@
 # arm_ctrl —— MuJoCo 六轴机械臂 (UR5e) 控制栈
 
 > **作者**: 王智伟 (Wang Zhiwei) · 广东工业大学 机械设计制造及其自动化 (2022 级) ·
-> lixinnian95@gmail.com
+> 2791842174@qq.com
 >
 > **项目主页**: https://github.com/wang-robotics/ur5e-control-stack
 >
