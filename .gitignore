@@ -40,6 +40,7 @@ docs/README_EN_翻译与讲解.md
 # ---- 申请工具脚本 ----
 scripts/make_cv_docx.py
 scripts/make_ps_docx.py
+scripts/make_pdf_html.py
 
 # ---- 草稿与临时脚本 (甄别后不公开) ----
 scripts/extract_docx.py
