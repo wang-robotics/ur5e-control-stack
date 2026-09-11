@@ -1,0 +1,90 @@
+# ============================================================
+# UR5e 控制栈 —— 公开仓库排除清单
+# 原则: 代码全进; 数据/权重/视频走 Release 或脚本复现; 内部材料不入
+# ============================================================
+
+# ---- 数据 (1.09 GB, 不进仓库; 用 scripts/teleop_collect.py 复现) ----
+datasets/
+*.npz
+
+# ---- 输出 (156 MB): 权重/图/视频走 Release, 仅保留小体积评估日志 ----
+outputs/*
+!outputs/eval_*.txt
+!outputs/*.md
+
+# ---- 内部材料 (纠错记录 / 申请材料 / 工作备份) ----
+复盘/
+上传的文件/
+dsh-profile-web-backup/
+新对话交接*.md
+*.cmd
+
+# ---- 与本项目无关的杂项 (同目录其他实验产物) ----
+food-wheel.html
+_combined.js
+test-wheel.mjs
+
+# ---- 申请与面试准备材料 (内部使用, 不公开) ----
+docs/面试题库.md
+docs/错题本.md
+docs/模拟面试*.md
+docs/Q*_练习记录.md
+docs/Q1_自我介绍_语音稿.md
+docs/Q6_雅可比链_重建讲义.md
+docs/Q6_自测8题_答案卡.md
+docs/Q10_Q11_闭卷重答_题纲.md
+docs/卡点45_sim2real_重答.md
+docs/王牌区_Q13-17_演练材料.md
+docs/独立贡献边界说明_骨架.md
+docs/导师初筛_候选清单.md
+docs/套磁信_模板.md
+docs/语言成绩与推荐信_启动计划.md
+docs/材料包清单_收尾.md
+docs/演示视频脚本.md
+docs/英文费曼_每日15分钟.md
+docs/数字锚一页纸.md
+docs/学习路线_香港申请.md
+docs/新对话交接_英语学习.md
+docs/文件一句话总结.md
+docs/成果清单.md
+
+# ---- 草稿与临时脚本 (甄别后不公开) ----
+# 已被 README_EN.md 取代的骨架, 与面向英语学习的讲解稿
+docs/README_英文骨架.md
+docs/README_EN_翻译与讲解.md
+# 与机器人项目无关的 docx 工具 / Python 入门笔记
+scripts/extract_docx.py
+scripts/lesson_python_basics.py
+# _debug 里的纯草稿 (调试图、找相机、临时探针)
+scripts/_debug/debug_*.py
+scripts/_debug/show_tail.py
+scripts/_debug/inspect_repos.py
+scripts/_debug/camera_search.py
+scripts/_debug/test_hold.py
+scripts/_debug/test_hold_sag.py
+scripts/_debug/test_rotation.py
+scripts/_debug/probe_depth.py
+scripts/_debug/depth_dist.py
+scripts/_debug/flick_sweep_result.txt
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.ipynb_checkpoints/
+.pytest_cache/
+
+# ---- 编辑器 / 系统 ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+~$*
+
+# ---- 大文件保险 (权重与视频一律走 Release) ----
+*.zip
+*.pt
+*.mp4
+*.avi

@@ -1,0 +1,9 @@
+<mujoco>
+  <include file="scene.xml"/>
+  <worldbody>
+    <camera name="teleop" mode="fixed" pos="0.9 -0.9 1.1" euler="0.65 0 2.2"/>
+    <body name="target_ball" pos="0.1 0.3 0.4">
+      <geom type="sphere" size="0.06" rgba="1 0 0 1" contype="0" conaffinity="0"/>
+    </body>
+  </worldbody>
+</mujoco>
