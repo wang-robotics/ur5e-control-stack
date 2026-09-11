@@ -35,6 +35,19 @@
 将来接入真机（ROS2 / gRPC / 串口）时只需新增一个接口实现类，控制栈与
 RL 环境零改动。
 
+## 模型权重与演示视频
+
+训练好的策略权重与演示片段见 **[Release v1.0](https://github.com/wang-robotics/ur5e-control-stack/releases/tag/v1.0)**：
+
+| 内容 | 文件 |
+|---|---|
+| PPO 策略（原模型 + 3 个种子） | `ur5e_reach_ppo*.zip` |
+| 行为克隆策略（主模型 / v3 / 同配方重训 / 干净数据对照） | `vla_bc*.pt` |
+| 演示片段（8 段，480×480） | `ppo_ep*.mp4`、`vla_ep*.mp4` |
+
+> 数据集（约 1 GB）不进仓库：用 `scripts/teleop_collect.py` + `scripts/preprocess_vla.py`
+> 复现，说明见 `data/README.md`。
+
 ## 环境准备
 
 推荐使用 conda 环境（本机已有 `mujoco_project` 可直接使用）：

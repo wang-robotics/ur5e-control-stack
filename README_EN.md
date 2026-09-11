@@ -33,6 +33,20 @@ learning-based controllers were developed and evaluated on the same reach task:
 a PPO policy trained purely from rewards, and a lightweight VLA-style policy
 trained from keyboard-teleoperation demonstrations with an RGB-D target detector.
 
+## Model weights and demo clips
+
+Trained policies and demo renderings are attached to
+**[Release v1.0](https://github.com/wang-robotics/ur5e-control-stack/releases/tag/v1.0)**:
+
+| Content | Files |
+|---|---|
+| PPO policies (original + 3 seeds) | `ur5e_reach_ppo*.zip` |
+| Behavior-cloning policies (main / v3 / same-recipe retrain / cleaned-data control) | `vla_bc*.pt` |
+| Demo clips (8 × 480p) | `ppo_ep*.mp4`, `vla_ep*.mp4` |
+
+> Datasets (~1 GB) are not committed; reproduce them with
+> `scripts/teleop_collect.py` and `scripts/preprocess_vla.py` (see `data/README.md`).
+
 ## Architecture
 
 | Layer | Module | Responsibility |
