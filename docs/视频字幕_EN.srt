@@ -8,7 +8,7 @@ Six layers: kinematics, trajectory planning, control, abstraction, reinforcement
 
 3
 00:00:13,000 --> 00:00:20,000
-Built from scratch, and verified by 20 unit tests
+Built layer by layer, and verified by 20 unit tests
 
 4
 00:00:20,000 --> 00:00:28,000
