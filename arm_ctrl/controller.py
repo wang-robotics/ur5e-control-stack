@@ -37,8 +37,11 @@ def set_position_servo(model: mujoco.MjModel, kv_ratio: float = 0.05) -> None:
     """调整位置伺服的阻尼比 kv/kp, 改变伺服带宽。
 
     Menagerie UR5e 内建伺服 kv = 0.2*kp, 闭环为一阶低通,
-    时间常数 tau = kv/kp = 0.2s (带宽约 0.8Hz), 跟踪轨迹偏慢。
-    减小 kv_ratio 可提高带宽 (0.05 -> tau=50ms, ~20Hz), 仍稳定无超调。
+    时间常数 tau = kv/kp, 带宽 f ~= 1/(2*pi*tau): 模型原值 tau=0.2s -> f ~= 0.8Hz, 跟踪偏慢。
+    减小 kv_ratio 可提高带宽 (0.05 -> tau=50ms, f ~= 3.2Hz), 仍稳定无超调。
+
+    注: 2026-10-13 更正 —— 原注释把 1/tau 当成带宽写成 ~20Hz (单位混用),
+    与上一行的 1/(2*pi*tau) 不是同一套换算。详见 复盘/更正记录 §24。
     """
     model.actuator_biasprm[:, 2] = -kv_ratio * model.actuator_gainprm[:, 0]
 

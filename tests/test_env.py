@@ -22,7 +22,7 @@ class TestMuJoCoInterface(unittest.TestCase):
         ok = iface.move_joints(target, duration=1.5, blocking=True)
         self.assertTrue(ok)
         self.assertFalse(iface.is_moving())
-        # 位置伺服 (20Hz 带宽) 在 1.5s 内应基本到位 (允许小稳态误差)
+        # 位置伺服 (tau=50ms, 带宽 ~3.2Hz) 在 1.5s 内应基本到位 (允许小稳态误差)
         err = np.max(np.abs(iface.get_joint_positions() - target))
         self.assertLess(err, 0.05)
 

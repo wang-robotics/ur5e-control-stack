@@ -15,7 +15,7 @@
 | `summarize_evals.py` | 汇总 `outputs/eval_*.txt` 的逐局距离 | 报告里的成功率/距离统计 |
 | `analyze_eval.py` | 单次评估的分布分析（均值/标准差/最好成绩） | 双口径数据表 |
 | `flick_sweep.py` | 奇异位形脱困实验：扫描扰动强度 | 折叠点是**不稳定平衡**（无最小甩力，只有起飞时间） |
-| `stiffness_scan.py` | 位置伺服 kv/kp 比值的扫掠 | 伺服带宽 **0.8 Hz → ~20 Hz**（kv/kp 0.2 → 0.05） |
+| `stiffness_scan.py` | 位置伺服 kv/kp 比值的扫掠 | 伺服带宽 **0.8 Hz → ~3.2 Hz**（kv/kp 0.2 → 0.05，tau 0.2s → 50ms；`f = 1/(2πτ)`。2026-10-13 更正：原写 ~20 Hz 是把 1/τ 当带宽） |
 | `inspect_vla_log.py` | 解析 VLA 训练日志 | 六版本演进与验证损失曲线 |
 
 ## 复现方式

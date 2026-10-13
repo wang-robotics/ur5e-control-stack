@@ -112,7 +112,8 @@ class MuJoCoInterface(RobotInterface):
         Args:
             robot: Robot 实例; None 时自动加载 UR5e 模型。
             servo_kv_ratio: 位置伺服阻尼比 kv/kp。None 保持模型原值
-                (带宽 0.8Hz, 跟踪偏慢); 0.05 为推荐值 (~20Hz 带宽)。
+                (tau=0.2s, 带宽 ~0.8Hz, 跟踪偏慢); 0.05 为推荐值
+                (tau=50ms, 带宽 ~3.2Hz; 2026-10-13 更正了原 ~20Hz 的单位错误)。
         """
         self.robot = robot if robot is not None else Robot()
         if servo_kv_ratio is not None:

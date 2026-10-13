@@ -113,7 +113,7 @@ python scripts/download_ur5e_model.py
   零外部依赖（注：mujoco 3.9 已无内置 IK；mink 1.2 与 mujoco 3.9
   存在求解器兼容问题，故采用自研方案）
 - **关节控制**：默认使用模型内建位置伺服（ctrl = 目标角），并将阻尼比
-  kv/kp 从模型原值 0.2 调至 0.05（带宽 0.8Hz → ~20Hz，匹配 50Hz 控制
+  kv/kp 从模型原值 0.2 调至 0.05（时间常数 0.2s → 50ms，带宽 0.8Hz → ~3.2Hz，远低于 50Hz 采样率
   周期）；另提供力矩模式 PD + 重力补偿（`enable_torque_mode` +
   `JointTorquePDController`）
 - **OSC**：末端 6 维速度经 DLS 映射为关节速度并积分成位置目标，
